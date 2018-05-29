@@ -5,7 +5,11 @@
 package it.polito.tdp.borders;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+
+import it.polito.tdp.borders.model.CountryAndNumber;
+import it.polito.tdp.borders.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -28,9 +32,35 @@ public class BordersController {
 
     @FXML // fx:id="txtResult"
     private TextArea txtResult; // Value injected by FXMLLoader
+    
+    private Model model;
+    
+    public void setModel(Model model) {
+    	this.model = model;
+    }
 
     @FXML
     void doCalcolaConfini(ActionEvent event) {
+
+    	try {
+    	int anno = Integer.parseInt(txtAnno.getText());
+    	
+		model.creaGrafo(anno);
+
+		List<CountryAndNumber> list = model.getCountryAndNumber();
+		
+		if(list.size()==0) {
+			txtResult.appendText("Non ci sono stati corrispondenti\n");
+		}
+		else {
+			txtResult.appendText("Stati dell'anno "+anno+"\n");
+		for(CountryAndNumber c : list) {
+			txtResult.appendText(String.format("%s %d\n", c.getCountry().getStateName(), c.getNumber()));
+		}
+		}
+    	}catch(NumberFormatException e){
+    		txtResult.appendText("Errore di formattazione dell'anno\n");
+    	}
 
     }
 
