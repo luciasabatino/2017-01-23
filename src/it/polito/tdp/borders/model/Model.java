@@ -17,6 +17,7 @@ public class Model {
 	private SimpleGraph<Country,DefaultEdge> graph;
 	private List<Country> countries;
 	private Map<Integer, Country> countriesMap;
+	private Simulator simulator;
 	
 	public Model() {
 		
@@ -51,5 +52,32 @@ public class Model {
 		Collections.sort(list);
 		return list;
 	}
+
+	public List<Country> getCountries() {
+		return countries;
+	}
+
+	public void simula(Country partenza) {
+		//lancia la smulazione
+		this.simulator = new Simulator();
+		this.simulator.init(this.graph, partenza);
+		this.simulator.run();
+	}
+
+	public int getTsimulazione() {
+		return this.simulator.getT();
+	}
+
+	public List<CountryAndNumber> getCountriesStanziali() {
+		List<CountryAndNumber> list = new ArrayList<>();
+		Map<Country, Integer> map = this.simulator.getStanziali();
+		for(Country c : map.keySet()) {
+			CountryAndNumber cn = new CountryAndNumber(c, map.get(c));
+			list.add(cn);
+		}
+		Collections.sort(list);
+		return list;
+	}
+	
 	
 }

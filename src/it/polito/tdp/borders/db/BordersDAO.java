@@ -52,7 +52,7 @@ public class BordersDAO {
 	}
 	
 	public List<Country> getCountriesFromYear(int anno){
-		String sql = "SELECT * FROM country WHERE CCode IN (SELECT state1no FROM contiguity WHERE year<=? AND conttype=1) ";
+		String sql = "SELECT * FROM country WHERE CCode IN (SELECT state1no FROM contiguity WHERE year<=? AND conttype=1) ORDER BY StateNme ASC ";
 	
 		try {
 			Connection conn = DBConnect.getConnection() ;
